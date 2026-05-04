@@ -17,12 +17,12 @@ header {
   background: linear-gradient(to right, #0f4c75, #3282b8);
   color: white;
   text-align: center;
-  padding: 50px 20px;
+  padding: 60px 20px;
 }
 
 header h1 {
   margin: 0;
-  font-size: 38px;
+  font-size: 40px;
 }
 
 header h2 {
@@ -30,15 +30,39 @@ header h2 {
   font-weight: normal;
 }
 
-/* DESCRIPTION BOX 🔥 */
+/* DESCRIPTION BOX */
 .desc-box {
-  margin: 20px auto 0;
-  max-width: 700px;
-  background: rgba(255,255,255,0.1);
-  padding: 15px 20px;
+  margin: 25px auto 15px;
+  max-width: 750px;
+  background: white;
+  color: #333;
+  padding: 20px 25px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(0,0,0,0.2);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
   line-height: 1.6;
+}
+
+/* CONTACT */
+.contact {
+  margin-top: 15px;
+}
+
+.contact a {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 14px;
+  background: white;
+  color: #0f4c75;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.contact a:hover {
+  background: #0f4c75;
+  color: white;
 }
 
 /* PROJECT GRID */
@@ -46,7 +70,7 @@ header h2 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
-  padding: 30px;
+  padding: 40px;
 }
 
 /* CARD */
@@ -89,23 +113,28 @@ header h2 {
   <h1>Abdulmajeed Alharbi</h1>
   <h2>Data Analyst | Power BI</h2>
 
-  <!-- 🔥 DESCRIPTION BOX -->
   <div class="desc-box">
     Data Analyst with a background in Computer Information Systems and hands-on experience in Python, Machine Learning, and data visualization. 
     Skilled in transforming raw data into actionable insights and building interactive dashboards to support business decision-making. 
     Passionate about solving real-world problems through data-driven solutions.
   </div>
 
+  <!-- 🔥 CONTACT -->
+  <div class="contact">
+    <a href="mailto:AbdulmajeedAlharbi1@hotmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/abdulmajeed-alharbi-773422308" target="_blank">LinkedIn</a>
+  </div>
+
 </header>
 
 <section class="projects">
 
-  <!-- Coffee -->
+  <!-- Amazon -->
   <div class="card">
-    <img src="coffee.png">
-    <h3>Coffee Sales in Saudi Arabia (2023)</h3>
-    <p>Analyzed coffee market trends and sales performance across Saudi Arabia using Power BI.</p>
-    <a class="btn" href="LINK">View Project</a>
+    <img src="Amazon.png">
+    <h3>Amazon Sales Analysis (2025)</h3>
+    <p>Analyzed e-commerce sales data to uncover trends in revenue and customer behavior using Power BI.</p>
+    <a class="btn" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project/blob/main/Sample%20of%20Amazon%20sales%20(2025).pbix">View Project</a>
   </div>
 
   <!-- Food -->
@@ -113,15 +142,23 @@ header h2 {
     <img src="food.png">
     <h3>Food Delivery Analysis (2022–2025)</h3>
     <p>Insights into delivery trends, customer behavior, and growth patterns in Saudi Arabia.</p>
-    <a class="btn" href="LINK">View Project</a>
+    <a class="btn" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project/blob/main/Food%20Delivery%20in%20Saudi%20Arabia%20(2022-2025).pbix">View Project</a>
+  </div>
+
+  <!-- Coffee -->
+  <div class="card">
+    <img src="coffee.png">
+    <h3>Coffee Sales in Saudi Arabia (2023)</h3>
+    <p>Analyzed coffee market trends and sales performance across Saudi Arabia.</p>
+    <a class="btn" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project/blob/main/Coffee%20sales%20in%20Saudi%20Arabia%20(2023).pbix">View Project</a>
   </div>
 
   <!-- Riyadh -->
   <div class="card">
     <img src="riyadh.png">
     <h3>Riyadh Apartment Sales (2023)</h3>
-    <p>Real estate data analysis focusing on apartment pricing and demand in Riyadh.</p>
-    <a class="btn" href="LINK">View Project</a>
+    <p>Real estate data analysis focusing on pricing and demand in Riyadh.</p>
+    <a class="btn" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project/blob/main/Riyadh%20Apartments%20Sale%20(2023).pbix">View Project</a>
   </div>
 
   <!-- Laptop -->
@@ -129,15 +166,7 @@ header h2 {
     <img src="laptop.png">
     <h3>Laptop Sales Dashboard</h3>
     <p>Analyzed product performance and pricing strategies in the laptop market.</p>
-    <a class="btn" href="LINK">View Project</a>
-  </div>
-
-  <!-- 🔥 NEW PROJECT (تقدر تعدل الاسم والصورة) -->
-  <div class="card">
-    <img src="newproject.png">
-    <h3>New Data Analysis Project</h3>
-    <p>Explored data insights and built dashboards to support business decisions.</p>
-    <a class="btn" href="#">View Project</a>
+    <a class="btn" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project/blob/main/laptop%20sales%20data.pbix">View Project</a>
   </div>
 
 </section>
