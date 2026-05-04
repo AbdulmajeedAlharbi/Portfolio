@@ -20,12 +20,22 @@ header {
   padding: 60px 20px;
 }
 
-header h1 {
+/* 🔥 TITLE BOX */
+.title-box {
+  display: inline-block;
+  padding: 20px 30px;
+  border: 2px solid black; /* حدود سوداء */
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3); /* ظل */
+}
+
+.title-box h1 {
   margin: 0;
   font-size: 40px;
 }
 
-header h2 {
+.title-box h2 {
   margin-top: 10px;
   font-weight: normal;
 }
@@ -110,16 +120,21 @@ header h2 {
 <body>
 
 <header>
-  <h1>Abdulmajeed Alharbi</h1>
-  <h2>Data Analyst | Power BI</h2>
 
+  <!-- 🔥 TITLE WITH BORDER -->
+  <div class="title-box">
+    <h1>Abdulmajeed Alharbi</h1>
+    <h2>Data Analyst | Power BI</h2>
+  </div>
+
+  <!-- DESCRIPTION -->
   <div class="desc-box">
     Data Analyst with a background in Computer Information Systems and hands-on experience in Python, Machine Learning, and data visualization. 
     Skilled in transforming raw data into actionable insights and building interactive dashboards to support business decision-making. 
     Passionate about solving real-world problems through data-driven solutions.
   </div>
 
-  <!-- 🔥 CONTACT -->
+  <!-- CONTACT -->
   <div class="contact">
     <a href="mailto:AbdulmajeedAlharbi1@hotmail.com">Email</a>
     <a href="https://www.linkedin.com/in/abdulmajeed-alharbi-773422308" target="_blank">LinkedIn</a>
