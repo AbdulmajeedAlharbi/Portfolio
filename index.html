@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عبدالمجيد الحربي | محلل بيانات</title>
+<meta name="description" content="عبدالمجيد الحربي – محلل بيانات ومطوّر Power BI. لوحات تحكم تفاعلية وتحليلات تدعم القرار.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: هادئ واثق، بلغة محلل يقدّم نتائج لا شعارات
+   IDEA: الصفحة تتصرف كلوحة Power BI: بطاقات مؤشرات، شرائح، رسوم
+   PICTURE: لوحة تحكم مرسومة يدوياً في الواجهة (أعمدة، خط، حلقة، مؤشرات)
+   COLOUR and TYPE: أسود عميق #0a0b0d، بنفسجي #7c5cff، سماوي #38d9f5؛ IBM Plex Sans Arabic + Space Grotesk
+   LAYOUT: رأس ثم واجهة بعمودين، شريط أدوات متحرك، أقسام بنفس ترتيب المرجع، تذييل */
+:root{color-scheme:dark;
+--bg:#0a0b0d;--ink:#eef1f5;--card:#131519;--line:#24272e;
+--soft:#9aa3ae;--pink:#7c5cff;--teal:#38d9f5;--deep:#050607;--ice:#eef1f5}
+:root[data-theme=light]{color-scheme:dark}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "IBM Plex Sans Arabic",system-ui,sans-serif;overflow-x:clip}
+.lat{font-family:"Space Grotesk","IBM Plex Sans Arabic",sans-serif}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(40px,6vw,88px) max(5vw,16px)}
+h1,h2,h3{line-height:1.2;margin:0;text-wrap:balance}
+h2{font-size:clamp(28px,3.6vw,40px);margin-bottom:10px}
+h3{font-size:19px}
+.lead{color:var(--soft);max-width:62ch;margin:0 0 32px}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px;border-radius:6px}
+
+/* nav */
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:20px;padding:10px max(5vw,16px);max-width:1240px;margin:0 auto}
+.logo{font-weight:700;font-size:18px;text-decoration:none;display:flex;align-items:center;gap:10px;flex:none}
+.logo i{width:34px;height:34px;border-radius:9px;background:var(--deep);color:var(--ice);display:grid;place-items:center;font-style:normal;font-size:15px}
+.links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-inline-start:auto}
+.links a{flex:none;text-decoration:none;padding:10px 12px;border-radius:8px;font-size:15px;color:var(--soft)}
+.links a:hover{color:var(--ink);background:var(--card)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:14px;color:var(--soft);margin-bottom:14px}
+.tag b{width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.hero h1{font-size:clamp(38px,5.4vw,60px);line-height:1.1}
+.hero h1 span{display:block;font-size:.5em;color:var(--teal);margin-top:10px;font-weight:500}
+.hero p{font-size:17px;color:var(--soft);max-width:52ch;margin:20px 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid var(--ink);font-size:16px;cursor:pointer;font-family:inherit}
+.btn.p{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.g{background:transparent;color:var(--ink)}
+.dash{background:var(--deep);border-radius:20px;padding:14px;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.dash{border:1px solid var(--line)}.dash svg{width:100%;height:auto;display:block;direction:ltr}.dash svg text{direction:ltr;unicode-bidi:plaintext}
+
+/* marquee */
+.marq{background:var(--deep);color:var(--ice);overflow:hidden;padding:22px 0;direction:ltr}
+.track{display:flex;gap:14px;width:max-content;animation:slide 32s linear infinite}
+.chip{display:flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid #2a2e36;border-radius:999px;white-space:nowrap;font-size:15px}
+.chip svg{width:20px;height:20px}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.track{animation:none;flex-wrap:wrap;width:auto;justify-content:center;padding:0 16px}.track .dup{display:none}html{scroll-behavior:auto}}
+
+/* cards */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.qual{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.check{list-style:none;padding:0;margin:14px 0 0}
+.check li{padding:6px 0;padding-inline-start:28px;position:relative}
+.check li::before{content:"";position:absolute;inset-inline-start:0;top:13px;width:14px;height:8px;border:solid var(--pink);border-width:0 0 3px 3px;transform:rotate(-45deg)}
+.muted{color:var(--soft);font-size:15px}
+
+/* projects */
+.feat{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:0;padding:0;overflow:hidden}
+.thumb{position:relative;aspect-ratio:16/10;background:var(--deep);overflow:hidden}
+.thumb svg,.thumb img{position:absolute;inset:0;width:100%;height:100%}
+.thumb img{object-fit:cover;object-position:top}
+.feat .thumb{aspect-ratio:auto;min-height:300px}
+.fbody{padding:clamp(20px,3vw,34px);display:flex;flex-direction:column;gap:12px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:13px;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal);font-weight:500}
+.year{font-size:13px;color:var(--pink);font-weight:700}
+.pcard{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.pcard .in{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pcard p,.fbody p{margin:0;color:var(--soft)}
+.more{margin-top:auto;padding-top:6px;font-weight:700;text-decoration:none;color:var(--pink);display:inline-flex;min-height:44px;align-items:center}
+.more:hover{text-decoration:underline}
+.ptitle{margin:36px 0 16px;font-size:20px}
+
+/* github */
+.gh{display:flex;flex-wrap:wrap;align-items:center;gap:20px;justify-content:space-between}
+.gh .repo{display:flex;gap:16px;align-items:center}
+.gh .ico{width:52px;height:52px;border-radius:12px;background:var(--deep);display:grid;place-items:center;flex:none}
+
+/* steps */
+.steps{counter-reset:s}
+.step h3{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.step h3 i{width:36px;height:36px;border-radius:10px;background:var(--deep);display:grid;place-items:center;flex:none}
+.step p{margin:0;color:var(--soft)}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{background:var(--deep);color:var(--ice);border-radius:14px;padding:18px 14px;text-align:center}
+.stat b{display:block;font-size:clamp(26px,4vw,38px);line-height:1.1;color:#fff}
+.stat span{font-size:14px;color:#9aa3ae}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px}
+.info{display:flex;flex-direction:column;gap:14px}
+.irow{display:flex;gap:14px;align-items:center}
+.irow i{width:44px;height:44px;border-radius:12px;background:var(--deep);display:grid;place-items:center;flex:none}
+.irow a,.irow span{overflow-wrap:anywhere}
+.irow small{display:block;color:var(--soft);font-size:13px}
+form{display:grid;gap:12px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+label{font-size:14px;font-weight:500;display:grid;gap:6px}
+input,textarea{font:16px "IBM Plex Sans Arabic",sans-serif;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:48px;width:100%}
+textarea{min-height:130px;resize:vertical}
+.note{font-size:14px;color:var(--soft);margin:0}
+.note a{color:var(--pink);font-weight:700}
+
+footer{background:var(--deep);color:#9aa3ae;padding:28px max(5vw,16px);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer a{color:var(--ice)}
+
+@media(max-width:900px){.hero,.about,.contact,.qual,.feat{grid-template-columns:minmax(0,1fr)}.feat .thumb{min-height:220px}}
+@media(max-width:600px){.links{display:none}.two{grid-template-columns:minmax(0,1fr)}.stats{gap:8px}.stat{padding:14px 6px}.stat span{font-size:13px}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav" aria-label="القائمة الرئيسية">
+    <a class="logo" href="#top"><i class="lat">AH</i>عبدالمجيد الحربي</a>
+    <div class="links">
+      <a href="#stack">الأدوات</a>
+      <a href="#qual">المؤهلات</a>
+      <a href="#projects">المشاريع</a>
+      <a href="#github">GitHub</a>
+      <a href="#method">منهجيتي</a>
+      <a href="#about">عن نفسي</a>
+      <a href="#contact">تواصل</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- الواجهة -->
+  <section class="band">
+    <div class="wrap hero">
+      <div>
+        <div class="tag"><b></b>تحليل · لوحات تحكم · قرارات</div>
+        <h1>عبدالمجيد الحربي<span>محلل بيانات ومطوّر <span class="lat" style="display:inline;font-size:1em;margin:0">Power BI</span></span></h1>
+        <p>خلفيتي في نظم المعلومات الحاسوبية، وعندي خبرة عملية في Python وتعلّم الآلة وتصوير البيانات. أحوّل البيانات الخام إلى رؤى واضحة، وأبني لوحات تحكم تفاعلية تساعد في اتخاذ قرارات العمل.</p>
+        <div class="btns">
+          <a class="btn p" href="#projects">عرض مشاريعي</a>
+          <a class="btn g" href="#contact">تواصل معي</a>
+        </div>
+      </div>
+      <div class="dash" aria-hidden="true">
+        <svg viewBox="0 0 560 400" direction="ltr" font-family="Space Grotesk, sans-serif">
+          <defs>
+            <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7c5cff" stop-opacity=".45"/><stop offset="1" stop-color="#7c5cff" stop-opacity="0"/></linearGradient>
+            <linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38d9f5"/><stop offset="1" stop-color="#1b9fc0"/></linearGradient>
+          </defs>
+          <!-- KPI -->
+          <g id="kpis"></g>
+          <!-- line chart -->
+          <rect x="10" y="102" width="340" height="170" rx="12" fill="#16181d"/>
+          <text x="30" y="128" fill="#9aa3ae" font-size="12">Revenue trend</text>
+          <g stroke="#2a2e36" stroke-width="1"><line x1="30" y1="160" x2="330" y2="160"/><line x1="30" y1="200" x2="330" y2="200"/><line x1="30" y1="240" x2="330" y2="240"/></g>
+          <path d="M30 236 L70 222 L110 228 L150 196 L190 204 L230 170 L270 178 L310 146 L330 140 L330 256 L30 256Z" fill="url(#ar)"/>
+          <path d="M30 236 L70 222 L110 228 L150 196 L190 204 L230 170 L270 178 L310 146 L330 140" fill="none" stroke="#7c5cff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="330" cy="140" r="5" fill="#fff" stroke="#7c5cff" stroke-width="3"/>
+          <!-- donut -->
+          <rect x="362" y="102" width="188" height="170" rx="12" fill="#16181d"/>
+          <text x="380" y="128" fill="#9aa3ae" font-size="12">By segment</text>
+          <g transform="translate(456 196)" fill="none" stroke-width="18">
+            <circle r="48" stroke="#2a2e36"/>
+            <circle r="48" stroke="#38d9f5" stroke-dasharray="150 302" transform="rotate(-90)"/>
+            <circle r="48" stroke="#7c5cff" stroke-dasharray="80 302" stroke-dashoffset="-154" transform="rotate(-90)"/>
+            <circle r="48" stroke="#eef1f5" stroke-dasharray="40 302" stroke-dashoffset="-238" transform="rotate(-90)"/>
+          </g>
+          <text x="456" y="202" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">62%</text>
+          <!-- bars -->
+          <rect x="10" y="284" width="540" height="106" rx="12" fill="#16181d"/>
+          <g id="bars"></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- الأدوات -->
+  <section id="stack" aria-label="الأدوات والمهارات">
+    <div class="marq"><div class="track" id="track"></div></div>
+  </section>
+
+  <!-- المؤهلات -->
+  <section id="qual" class="band">
+    <div class="wrap">
+      <h2>المؤهلات والمهارات</h2>
+      <p class="lead">الأساس الأكاديمي والمهارات اللي أشتغل فيها كل يوم.</p>
+      <div class="qual">
+        <div class="card">
+          <h3>نظم المعلومات الحاسوبية</h3>
+          <p class="muted" style="margin:6px 0 0">خلفية أكاديمية في <span class="lat">Computer Information Systems</span></p>
+          <!-- أضف هنا اسم الجامعة وسنة التخرج والشهادات الاحترافية -->
+          <ul class="check">
+            <li>تحليل البيانات وتنظيفها وتجهيزها</li>
+            <li>بناء نماذج البيانات في Power BI</li>
+            <li>أساسيات تعلّم الآلة باستخدام Python</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>ماذا أقدّم</h3>
+          <ul class="check">
+            <li>لوحات تحكم تفاعلية تدعم القرار</li>
+            <li>تصميم لوحات واضحة وسهلة القراءة</li>
+            <li>تحويل البيانات الخام إلى رؤى قابلة للتنفيذ</li>
+            <li>تحليل سلوك العملاء واتجاهات المبيعات</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- المشاريع -->
+  <section id="projects" class="band" style="background:var(--card);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <h2>مشاريعي في تحليل البيانات</h2>
+      <p class="lead">لوحات Power BI مبنية على بيانات حقيقية من السوق السعودي والتجارة الإلكترونية. ملفات كل المشاريع موجودة على GitHub.</p>
+      <div id="featured"></div>
+      <h3 class="ptitle">مشاريع أخرى</h3>
+      <div class="grid" id="plist"></div>
+    </div>
+  </section>
+
+  <!-- GitHub -->
+  <section id="github" class="band">
+    <div class="wrap">
+      <h2>المصدر المفتوح والنشاط</h2>
+      <p class="lead">كل ملفات المشاريع (.pbix) منشورة للعامة، وتقدر تحمّلها وتفتحها في Power BI Desktop.</p>
+      <div class="card gh">
+        <div class="repo">
+          <span class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="#eef1f5"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.4 4.8 18.4 5 18.4 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></svg></span>
+          <div>
+            <h3 class="lat" style="direction:ltr;text-align:right">AbdulmajeedAlharbi / Power-Bi-Project</h3>
+            <span class="muted">5 لوحات تحكم · Power BI</span>
+          </div>
+        </div>
+        <a class="btn g" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project">افتح المستودع</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- المنهجية -->
+  <section id="method" class="band" style="background:var(--card);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <h2>منهجيتي في التحليل</h2>
+      <p class="lead">كل مشروع يمشي على نفس الخطوات: من السؤال إلى القرار.</p>
+      <div class="grid" id="steps"></div>
+    </div>
+  </section>
+
+  <!-- عن نفسي -->
+  <section id="about" class="band">
+    <div class="wrap about">
+      <div>
+        <h2>عن نفسي</h2>
+        <p>أنا عبدالمجيد، محلل بيانات خلفيتي في نظم المعلومات الحاسوبية. أحب أفهم القصة اللي ورا الأرقام: ليش ارتفعت المبيعات، ومين العملاء الأهم، ووين الفرص الضائعة.</p>
+        <p class="muted">أستخدم Python لتجهيز البيانات وتحليلها وبناء نماذج تعلّم الآلة، وPower BI لتحويل النتائج إلى لوحات تفاعلية يقدر أي شخص يقرأها ويتخذ قراره منها. اللي يحركني هو حل مشاكل حقيقية بحلول مبنية على البيانات.</p>
+        <!-- لإضافة السيرة الذاتية: ارفع ملف cv.pdf للمستودع وأزل التعليق عن السطر التالي -->
+        <!-- <a class="btn p" href="cv.pdf">تحميل السيرة الذاتية</a> -->
+      </div>
+      <div class="stats">
+        <div class="stat"><b class="lat">5</b><span>لوحات تحكم منشورة</span></div>
+        <div class="stat"><b class="lat">BI</b><span>تركيزي الأساسي</span></div>
+        <div class="stat"><b class="lat">∞</b><span>شغف التعلّم</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- تواصل -->
+  <section id="contact" class="band" style="background:var(--card);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <h2>تواصل معي</h2>
+      <p class="lead">عندك مشروع بيانات أو فرصة عمل؟ راسلني وأرد عليك.</p>
+      <div class="contact">
+        <div class="info">
+          <div class="irow">
+            <i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#eef1f5" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></i>
+            <div><small>البريد الإلكتروني</small><a class="lat" href="mailto:AbdulmajeedAlharbi1@hotmail.com">AbdulmajeedAlharbi1@hotmail.com</a></div>
+          </div>
+          <div class="irow">
+            <i><svg width="20" height="20" viewBox="0 0 24 24" fill="#eef1f5"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21h-4V9.5Z"/></svg></i>
+            <div><small>LinkedIn</small><a href="https://www.linkedin.com/in/abdulmajeed-alharbi-773422308">abdulmajeed-alharbi</a></div>
+          </div>
+          <div class="irow">
+            <i><svg width="20" height="20" viewBox="0 0 24 24" fill="#eef1f5"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.4 4.8 18.4 5 18.4 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></svg></i>
+            <div><small>GitHub</small><a href="https://github.com/AbdulmajeedAlharbi">AbdulmajeedAlharbi</a></div>
+          </div>
+        </div>
+        <form class="card" id="cform" novalidate>
+          <div class="two">
+            <label for="fn">الاسم<input id="fn" name="name" required autocomplete="name"></label>
+            <label for="fe">البريد الإلكتروني<input id="fe" name="email" type="email" required autocomplete="email" dir="ltr"></label>
+          </div>
+          <label for="fs">الموضوع<input id="fs" name="subject"></label>
+          <label for="fm">الرسالة<textarea id="fm" name="message" required></textarea></label>
+          <button class="btn p" type="submit">جهّز الرسالة</button>
+          <p class="note" id="fnote" aria-live="polite">الزر يفتح برنامج البريد عندك والرسالة جاهزة فيه.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> عبدالمجيد الحربي · محلل بيانات</span>
+    <span><a href="#top">العودة للأعلى ↑</a></span>
+  </div>
+</footer>
+
+<script>
+{
+  const BASE = 'https://github.com/AbdulmajeedAlharbi/Power-Bi-Project/blob/main/';
+  const projects = [
+    {t:'تحليل مبيعات أمازون', y:'2025', img:'Amazon.png', f:'Sample%20of%20Amazon%20sales%20(2025).pbix',
+     d:'تحليل بيانات مبيعات التجارة الإلكترونية لاكتشاف اتجاهات الإيرادات وفهم سلوك العملاء.',
+     pts:['اتجاهات الإيرادات عبر الزمن','تحليل سلوك العملاء','لوحة تفاعلية بفلاتر وشرائح'], tags:['Power BI','E-commerce']},
+    {t:'توصيل الطعام في السعودية', y:'2022–2025', img:'food.png', f:'Food%20Delivery%20in%20Saudi%20Arabia%20(2022-2025).pbix',
+     d:'اتجاهات التوصيل وسلوك العملاء في السوق السعودي على مدى أربع سنوات.', tags:['Power BI','السوق السعودي']},
+    {t:'مبيعات القهوة في السعودية', y:'2023', img:'coffee.png', f:'Coffee%20sales%20in%20Saudi%20Arabia%20(2023).pbix',
+     d:'تحليل اتجاهات سوق القهوة وأداء المبيعات.', tags:['Power BI','المبيعات']},
+    {t:'مبيعات الشقق في الرياض', y:'2023', img:'riyadh.png', f:'Riyadh%20Apartments%20Sale%20(2023).pbix',
+     d:'تحليل عقاري يركّز على الأسعار والطلب في مدينة الرياض.', tags:['Power BI','العقار']},
+    {t:'لوحة مبيعات اللابتوبات', y:'', img:'laptop.png', f:'laptop%20sales%20data.pbix',
+     d:'تحليل أداء المنتجات واستراتيجيات التسعير.', tags:['Power BI','التسعير']}
+  ];
+
+  // رسم بديل يظهر لو الصورة ما تحمّلت
+  const thumbSvg = i => {
+    const h = [[40,62,50,80,70,92],[70,50,84,60,90,74],[30,48,66,58,80,96],[86,70,76,52,60,44],[50,80,60,90,66,84]][i];
+    const bars = h.map((v,k)=>`<rect x="${40+k*52}" y="${200-v*1.5}" width="32" height="${v*1.5}" rx="5" fill="${k===h.indexOf(Math.max(...h))?'#7c5cff':'#38d9f5'}" opacity="${k===h.indexOf(Math.max(...h))?1:.75}"/>`).join('');
+    return `<svg viewBox="0 0 400 250" direction="ltr" preserveAspectRatio="xMidYMid slice"><rect width="400" height="250" fill="#050607"/><rect x="20" y="20" width="110" height="34" rx="8" fill="#16181d"/><rect x="142" y="20" width="110" height="34" rx="8" fill="#16181d"/><rect x="264" y="20" width="116" height="34" rx="8" fill="#16181d"/><rect x="32" y="32" width="50" height="10" rx="5" fill="#38d9f5"/><rect x="154" y="32" width="64" height="10" rx="5" fill="#eef1f5"/><rect x="276" y="32" width="40" height="10" rx="5" fill="#7c5cff"/>${bars}<line x1="30" y1="200" x2="370" y2="200" stroke="#2a2e36"/></svg>`;
+  };
+  const pills = a => `<div class="pills">${a.map(x=>`<span class="pill">${x}</span>`).join('')}</div>`;
+  const thumb = (p,i) => `<div class="thumb">${thumbSvg(i)}<img src="${p.img}" alt="لقطة من لوحة ${p.t}" loading="lazy" onerror="this.remove()"></div>`;
+
+  const f = projects[0];
+  document.getElementById('featured').innerHTML = `
+    <article class="card feat">${thumb(f,0)}
+      <div class="fbody">
+        <span class="year lat">مشروع مميز · ${f.y}</span>
+        <h3 style="font-size:clamp(22px,2.6vw,28px)">${f.t}</h3>
+        ${pills(f.tags)}
+        <p>${f.d}</p>
+        <ul class="check" style="margin:0">${f.pts.map(x=>`<li>${x}</li>`).join('')}</ul>
+        <div class="btns" style="margin-top:6px"><a class="btn p" href="${BASE+f.f}">تحميل ملف Power BI</a><a class="btn g" href="https://github.com/AbdulmajeedAlharbi/Power-Bi-Project">المستودع</a></div>
+      </div>
+    </article>`;
+
+  document.getElementById('plist').innerHTML = projects.slice(1).map((p,i)=>`
+    <article class="card pcard">${thumb(p,i+1)}
+      <div class="in">
+        ${p.y?`<span class="year lat">${p.y}</span>`:''}
+        <h3>${p.t}</h3>
+        <p>${p.d}</p>
+        ${pills(p.tags)}
+        <a class="more" href="${BASE+p.f}">عرض الملف ←</a>
+      </div>
+    </article>`).join('');
+
+  // شريط الأدوات
+  const dot = c => `<svg viewBox="0 0 20 20"><rect x="2" y="9" width="4" height="9" rx="1" fill="${c}"/><rect x="8" y="5" width="4" height="13" rx="1" fill="${c}" opacity=".8"/><rect x="14" y="2" width="4" height="16" rx="1" fill="${c}" opacity=".6"/></svg>`;
+  const tools = [['Power BI','#f2c811'],['Python','#38d9f5'],['Machine Learning','#7c5cff'],['Data Visualization','#eef1f5'],['Dashboard Design','#38d9f5'],['Data Cleaning','#7c5cff'],['Data Modeling','#eef1f5']];
+  const row = cls => tools.map(([n,c])=>`<span class="chip lat ${cls}">${dot(c)}${n}</span>`).join('');
+  document.getElementById('track').innerHTML = row('') + row('dup');
+
+  // المنهجية
+  const steps = [
+    ['السؤال','أبدأ بفهم سؤال العمل: وش القرار اللي نبي ندعمه؟','M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .8-1 1.5V14M12 17.5v.5'],
+    ['التنظيف والتجهيز','أنظّف البيانات وأوحّد صيغها وأعالج القيم الناقصة باستخدام Python.','M4 6h16M7 12h10M10 18h4'],
+    ['النمذجة والتحليل','أبني نموذج البيانات والمقاييس، وأستخرج الأنماط والاتجاهات.','M4 19V9M10 19V5M16 19v-7M22 19H2'],
+    ['العرض والقرار','أصمّم لوحة تفاعلية واضحة تعرض النتيجة وتسهّل اتخاذ القرار.','M3 4h18v12H3zM8 20h8M12 16v4']
+  ];
+  document.getElementById('steps').innerHTML = steps.map(([t,d,p])=>`
+    <div class="card step"><h3><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38d9f5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg></i>${t}</h3><p>${d}</p></div>`).join('');
+
+  // رسوم الواجهة
+  const kp = [['Total sales','2.4M','#38d9f5'],['Orders','18.6K','#eef1f5'],['Avg. order','129','#7c5cff']];
+  document.getElementById('kpis').innerHTML = kp.map(([l,v,c],i)=>`
+    <rect x="${10+i*182}" y="10" width="176" height="80" rx="12" fill="#16181d"/>
+    <text x="${28+i*182}" y="38" fill="#9aa3ae" font-size="12">${l}</text>
+    <text x="${28+i*182}" y="72" fill="${c}" font-size="26" font-weight="700">${v}</text>`).join('');
+  const bv = [42,58,36,70,52,80,64,48,74,60,88,56];
+  document.getElementById('bars').innerHTML = bv.map((v,i)=>`
+    <rect x="${32+i*43}" y="${376-v*.9}" width="26" height="${v*.9}" rx="4" fill="${v===88?'#7c5cff':'url(#br)'}"/>`).join('');
+
+  // نموذج التواصل
+  const form = document.getElementById('cform'), note = document.getElementById('fnote');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const n = form.name.value.trim(), em = form.email.value.trim(), m = form.message.value.trim();
+    if(!n || !em || !m){ note.textContent = 'فضلاً عبّ الاسم والبريد والرسالة.'; return; }
+    const s = form.subject.value.trim() || 'تواصل من الموقع';
+    const href = 'mailto:AbdulmajeedAlharbi1@hotmail.com?subject=' + encodeURIComponent(s) + '&body=' + encodeURIComponent(m + '\n\n— ' + n + ' (' + em + ')');
+    note.innerHTML = '';
+    const a = document.createElement('a'); a.href = href; a.textContent = 'اضغط هنا لفتح البريد وإرسال الرسالة';
+    note.append(a, document.createTextNode(' أو راسلني مباشرة على AbdulmajeedAlharbi1@hotmail.com'));
+    window.location.href = href;
+  });
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+}
+</script>
+</body>
+</html>
